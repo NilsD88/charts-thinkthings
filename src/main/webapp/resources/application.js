@@ -2,6 +2,7 @@ var randomData;
 
 $('#randomDataChart').highcharts({
   chart : {
+	height: 800,
     type : 'line',
     events : {
       load : function() {
@@ -10,17 +11,19 @@ $('#randomDataChart').highcharts({
     }
   },
   title : {
-    text : false
+    text : 'Door counter at mens room'
   },
+  colors: ['#E98300', '#E98300', '#E98300'],
   xAxis : {
     type : 'datetime',
-    minRange : 60 * 1000
+    minRange : 30 * 60 * 1000
   },
   yAxis : {
+	allowDecimals: false,
     title : {
       text : false
     },
-    max: 100
+    min : 60
   },
   legend : {
     enabled : false
@@ -34,6 +37,7 @@ $('#randomDataChart').highcharts({
     }
   },
   series : [ {
+	  lineWidth : 10,
     name : 'Data',
       data : [ ]
     } ]
@@ -46,8 +50,7 @@ client.connect('user', 'password', function(frame) {
 
   client.subscribe("/data", function(message) {
     var point = [ (new Date()).getTime(), parseInt(message.body) ];
-    var shift = randomData.data.length > 60;
-    randomData.addPoint(point, true, shift);
+    randomData.addPoint(point, true);
   });
 
 });
