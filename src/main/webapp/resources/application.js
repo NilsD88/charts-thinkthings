@@ -11,19 +11,29 @@ $('#randomDataChart').highcharts({
     }
   },
   title : {
-    text : 'Door counter at mens room'
+    text : 'ThinkThings 2015 movement counter'
   },
-  colors: ['#E98300', '#E98300', '#E98300'],
+  tooltip: {
+      enabled: false
+  },
+  colors: ['#542791', '#542791', '#542791'],
   xAxis : {
     type : 'datetime',
-    minRange : 30 * 60 * 1000
+    minRange : 60 * 60 * 1000
   },
   yAxis : {
 	allowDecimals: false,
     title : {
       text : false
     },
-    min : 60
+    min : 0,
+    max: 5000,
+    gridLineWidth: 0,
+    labels: {
+        style: {
+            color: 'white'
+        }
+    }
   },
   legend : {
     enabled : false
@@ -37,13 +47,13 @@ $('#randomDataChart').highcharts({
     }
   },
   series : [ {
-	  lineWidth : 10,
+	  lineWidth : 5,
     name : 'Data',
       data : [ ]
     } ]
 });
 
-var socket = new SockJS('/spring-mvc-websockets/random');
+var socket = new SockJS('/thinkthings/random');
 var client = Stomp.over(socket);
 
 client.connect('user', 'password', function(frame) {

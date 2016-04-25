@@ -42,10 +42,10 @@ public class RandomDataGenerator implements
     public void onApplicationEvent(final BrokerAvailabilityEvent event) {
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 4000)
     public void sendDataUpdates() throws IOException {
     	
-    		String url = "http://localhost:8081/sensorhistory/doorcounter?timespan=minute";
+    		String url = "https://mythings-builder-backend.proximus.be/sensorhistory/doorcounter?timespan=minute";
     		
     		HttpResponse response = makeRequest(url);
     		final String responseJson = EntityUtils.toString(response.getEntity());
@@ -60,8 +60,8 @@ public class RandomDataGenerator implements
     		//print result
     		if(!list.isEmpty()){
     			this.messagingTemplate.convertAndSend(
-    		            "/data", Double.valueOf(list.get(list.size() -1) .getData().getValue()));	
-    			previousCount = Double.valueOf(list.get(list.size() -1) .getData().getValue());
+    		            "/data", Double.valueOf(list.get(list.size() -1) .getTotalCount()));	
+    			previousCount = Double.valueOf(list.get(list.size() -1) .getTotalCount());
     		}else{
     			this.messagingTemplate.convertAndSend(
     		            "/data", previousCount);
