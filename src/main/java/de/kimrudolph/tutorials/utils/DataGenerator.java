@@ -28,7 +28,7 @@ public class DataGenerator implements
 
     private final MessageSendingOperations<String> messagingTemplate;
     
-    private TrackerHistory previous = null;
+    private List<TrackerHistory> previous = null;
     
     private final String USER_AGENT = "Mozilla/5.0";
 
@@ -52,16 +52,16 @@ public class DataGenerator implements
     		
     		Gson gson = createGson();
     		
-    		Type listType = new TypeToken<ArrayList<TrackerHistory>>() {}.getType();
+    		Type listType = new TypeToken<TrackerHistoryResponse>() {}.getType();
     		
-    		List<TrackerHistory> list=  gson.fromJson(responseJson, listType );
+    		TrackerHistoryResponse list=  gson.fromJson(responseJson, listType );
 
     		
     		//print result
-    		if(!list.isEmpty()){
+    		if(list != null){
     			this.messagingTemplate.convertAndSend(
-    		            "/data", list.get(list.size() -1));	
-    			previous = list.get(list.size() -1) ;
+    		            "/data", list.getData());	
+    			previous = list.getData() ;
     		}else{
     			this.messagingTemplate.convertAndSend(
     		            "/data", previous);
