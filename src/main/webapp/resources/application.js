@@ -56,7 +56,7 @@ $('#randomDataChart').highcharts({
 var socket = new SockJS('/walibi/trackers');
 var client = Stomp.over(socket);
 
-client.connect('proximus', 'walibi', function(frame) {
+client.connect(function(frame) {
 
   client.subscribe("/data", function(message) {
     var point = [ (new Date()).getTime(), parseInt(message.body) ];
