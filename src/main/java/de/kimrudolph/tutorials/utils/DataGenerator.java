@@ -23,17 +23,17 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 @Component
-public class RandomDataGenerator implements
+public class DataGenerator implements
     ApplicationListener<BrokerAvailabilityEvent> {
 
     private final MessageSendingOperations<String> messagingTemplate;
     
-    private Double previousCount = 0D;
+    private TrackerHistory previous = null;
     
     private final String USER_AGENT = "Mozilla/5.0";
 
     @Autowired
-    public RandomDataGenerator(
+    public DataGenerator(
         final MessageSendingOperations<String> messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
@@ -45,26 +45,26 @@ public class RandomDataGenerator implements
     @Scheduled(fixedDelay = 4000)
     public void sendDataUpdates() throws IOException {
     	
-    		String url = "https://mythings-builder-backend.proximus.be/sensorhistory/doorcounter?timespan=minute";
+    		String url = "https://mythings-builder-backend-tst.proximus.be/sensorhistory/trackers";
     		
     		HttpResponse response = makeRequest(url);
     		final String responseJson = EntityUtils.toString(response.getEntity());
     		
     		Gson gson = createGson();
     		
-    		Type listType = new TypeToken<ArrayList<SensorHistoryDoorCounter>>() {}.getType();
+    		Type listType = new TypeToken<ArrayList<TrackerHistory>>() {}.getType();
     		
-    		List<SensorHistoryDoorCounter> list=  gson.fromJson(responseJson, listType );
+    		List<TrackerHistory> list=  gson.fromJson(responseJson, listType );
 
     		
     		//print result
     		if(!list.isEmpty()){
     			this.messagingTemplate.convertAndSend(
-    		            "/data", Double.valueOf(list.get(list.size() -1) .getTotalCount()));	
-    			previousCount = Double.valueOf(list.get(list.size() -1) .getTotalCount());
+    		            "/data", list.get(list.size() -1));	
+    			previous = list.get(list.size() -1) ;
     		}else{
     			this.messagingTemplate.convertAndSend(
-    		            "/data", previousCount);
+    		            "/data", previous);
     		}
     	
     }

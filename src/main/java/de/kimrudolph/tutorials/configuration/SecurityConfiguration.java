@@ -20,6 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         throws Exception {
         auth
             .inMemoryAuthentication()
-            .withUser("user").password("password");
+            .withUser("proximus").password("walibi");
     }
 }
