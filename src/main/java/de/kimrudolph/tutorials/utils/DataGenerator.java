@@ -59,10 +59,12 @@ public class DataGenerator implements
     		
     		//print result
     		if(list != null){
-    			this.messagingTemplate.convertAndSend(list.getData());	
+    			this.messagingTemplate.convertAndSend(
+    		            "/data", list.getData());	
     			previous = list.getData() ;
     		}else{
-    			this.messagingTemplate.convertAndSend(previous);
+    			this.messagingTemplate.convertAndSend(
+    		            "/data", previous);
     		}
     	
     }
