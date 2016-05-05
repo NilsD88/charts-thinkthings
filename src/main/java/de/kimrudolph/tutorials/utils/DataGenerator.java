@@ -57,7 +57,7 @@ public class DataGenerator implements
     		TrackerHistoryResponse list=  gson.fromJson(responseJson, listType );
 
     		
-    		//print result
+    		//Send result to fe
     		if(list != null){
     			this.messagingTemplate.convertAndSend(
     		            "/data", list.getData());	
