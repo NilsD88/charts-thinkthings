@@ -45,7 +45,7 @@ public class RandomDataGenerator implements
     @Scheduled(fixedDelay = 4000)
     public void sendDataUpdates() throws IOException {
     	
-    		String url = "https://mythings-builder-backend.proximus.be/sensorhistory/doorcounter?timespan=minute";
+    		String url = "https://mythings-builder-backend-tst.proximus.be/sensorhistory/doorcounter?timespan=minute";
     		
     		HttpResponse response = makeRequest(url);
     		final String responseJson = EntityUtils.toString(response.getEntity());
