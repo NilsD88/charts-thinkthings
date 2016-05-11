@@ -11,10 +11,10 @@ $('#randomDataChart').highcharts({
     }
   },
   title : {
-    text : 'ThinkThings 2015 movement counter'
+    text : 'PIR Movement counter'
   },
   tooltip: {
-      enabled: false
+      enabled: true
   },
   colors: ['#542791', '#542791', '#542791'],
   xAxis : {
@@ -26,12 +26,10 @@ $('#randomDataChart').highcharts({
     title : {
       text : false
     },
-    min : 0,
-    max: 5000,
-    gridLineWidth: 0,
+    gridLineWidth: 1,
     labels: {
         style: {
-            color: 'white'
+            color: 'grey'
         }
     }
   },
